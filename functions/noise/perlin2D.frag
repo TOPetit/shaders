@@ -3,7 +3,11 @@
 //
 vec2 fade(vec2 t){return t*t*t*(t*(t*6.-15.)+10.);}
 
-float cnoise(vec2 P){
+vec4 permute(vec4 x,float seed){
+    return mod(((x*34.)+1.+seed)*x,289.);
+}
+
+float cnoise(vec2 P,float seed){
     vec4 Pi=floor(P.xyxy)+vec4(0.,0.,1.,1.);
     vec4 Pf=fract(P.xyxy)-vec4(0.,0.,1.,1.);
     Pi=mod(Pi,289.);// To avoid truncation effects in permutation
@@ -11,7 +15,7 @@ float cnoise(vec2 P){
     vec4 iy=Pi.yyww;
     vec4 fx=Pf.xzxz;
     vec4 fy=Pf.yyww;
-    vec4 i=permute(permute(ix)+iy);
+    vec4 i=permute(permute(ix,seed)+iy,seed);
     vec4 gx=2.*fract(i*.0243902439)-1.;// 1/41 = 0.024...
     vec4 gy=abs(gx)-.5;
     vec4 tx=floor(gx+.5);
