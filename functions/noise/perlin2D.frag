@@ -1,5 +1,6 @@
 //	Classic Perlin 2D Noise
 //	by Stefan Gustavson
+//  Modified by oxys to include seed
 //
 vec2 fade(vec2 t){return t*t*t*(t*(t*6.-15.)+10.);}
 
