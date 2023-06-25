@@ -4,14 +4,17 @@
 //       the higher the AA value, the longer it takes to render.
 //       AA = 1 is no antialiasing, AA = 2 is 2x2, AA = 3 is 3x3, etc.
 
-#define mainImage(O,U)                         \
-    vec4 T = vec4(0.);                         \
-    int AA = 8, x, y;                          \
-    float A = float (AA);                      \
-    for (x = 0; x < AA; x++) {                 \
-        for (y = 0; y < AA; y++) {             \
-            mainImage( T, U + vec2(x,y)/A-.5 );\
-            O += min(T,1.);                    \
-        };                                     \
-    };                                         \
-    O /= A*A
+#define AA 12
+void mainImage(out vec4 fragColor,in vec2 fragCoord) {                
+    vec4 T;
+    fragColor = vec4(0.);
+    int x, y;
+    float A = float (AA);
+    for (x = 0; x < AA; x++) {
+        for (y = 0; y < AA; y++) {
+            mainImage0( T, fragCoord + vec2(x,y)/A-.5 );
+            fragColor += min(T, 1.);
+        }
+    }
+    fragColor /= A*A;
+}
