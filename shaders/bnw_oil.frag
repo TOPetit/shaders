@@ -77,14 +77,12 @@ void mainImage0(out vec4 fragColor,in vec2 fragCoord)
 void mainImage(out vec4 fragColor,in vec2 fragCoord) {                
     vec4 T;
     fragColor = vec4(0.);
-    int x, y;
-    float A = float (AA);
-    for (x = 0; x < AA; x++) {
-        for (y = 0; y < AA; y++) {
-            mainImage0( T, fragCoord + vec2(x,y)/A-.5 );
-            fragColor += min(T, 1.);
+    float x, y, d = 1./float (AA);
+    for (x = 0.; x < 1.; x += d) {
+        for (y = 0.; y < 1.; y += d) {
+            mainImage0( T, fragCoord + vec2(x,y));
+            fragColor += min(abs(T), 1.);
         }
     }
-    fragColor /= A*A;
+    fragColor *= d*d;
 }
-
